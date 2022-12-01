@@ -1,0 +1,17 @@
+image:https://gitlab.trecis.cloud/documentation/utd/trainings-and-presentations/intro-to-hpc/badges/main/pipeline.svg[pipeline status]
+
+= Intro to HPC
+
+Submit Merge Requests and other fixes here.
+
+== Local preview
+
+Included in this repository are scripts that can be used to build and preview
+the contents of this repository.
+
+Both scripts use https://podman.io/[Podman] so you need to have it installed on
+your system.
+
+To build and preview the site, run:
+
+  $ ./build.sh && ./preview.sh

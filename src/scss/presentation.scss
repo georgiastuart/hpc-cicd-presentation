@@ -1,0 +1,47 @@
+.drift {
+  color: darken( $utdAquamarine, 15%);
+}
+
+.turbulent {
+  color: $utdOrangeLight;
+}
+
+.buoyant {
+  color: $utdPurple;
+}
+
+.model {
+  color: $utdOrangeLight;
+}
+
+.data {
+  color: darken( $utdAquamarine, 15%);
+}
+
+.prior {
+  color: darken( $utdAquamarine, 15%);
+}
+
+.likelihood {
+  color: $utdOrangeLight;
+}
+
+.posterior {
+  color: $utdPurple;
+}
+
+.forward {
+  color: $utdPurple;
+}
+
+.precision {
+  color: $utdBlue;
+}
+
+.norm {
+  color: $utdOrangeLight;
+}
+
+.kernel {
+  color: darken( $utdAquamarine, 15%);
+}

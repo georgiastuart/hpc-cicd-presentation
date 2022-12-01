@@ -1,0 +1,73 @@
+// From https://github.com/hakimel/reveal.js
+// MIT LICENSE
+
+// Base settings for all themes that can optionally be
+// overridden by the super-theme
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Staatliches&display=swap');
+
+$utdOrangeLight: #ffb870;
+$utdOrange: #e87500;
+$utdBrown: #7f5e1a;
+$utdGreen: #154734;
+$utdGreenLight: #2f604b;
+$utdGreenDark: #1e352b;
+$utdAquamarine: #5fe0b7;
+$utdPurple: #b89db9;
+$utdBlue: #7494b2;
+$materialBase: #121212;
+$materialOverlay: #fff;
+
+
+// Background of the presentation
+$backgroundColor: lighten( $materialBase, 8%);
+
+// Primary/body text
+$mainFont: 'Open Sans', sans-serif;
+$mainFontSize: 40px;
+$mainColor: #eee;
+
+// Vertical spacing between blocks of text
+$blockMargin: 20px;
+
+// Headings
+$headingMargin: 0 0 $blockMargin 0;
+$headingFont: 'Staatliches', Impact, cursive;
+$headingColor: $utdOrangeLight;
+$headingLineHeight: 1.2;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingTextShadow: none;
+$headingFontWeight: normal;
+$heading1TextShadow: $headingTextShadow;
+
+$heading1Size: 3em;
+$heading2Size: 2.11em;
+$heading3Size: 1.55em;
+$heading4Size: 1.00em;
+
+$codeFont: monospace;
+
+// Links and actions
+$linkColor: darken( $utdAquamarine, 15% );
+$linkColorHover: $utdAquamarine;
+
+// Text selection
+$selectionBackgroundColor: $utdGreenLight;
+$selectionColor: #fff;
+
+// Admonition block
+$admonitionBg: lighten( $backgroundColor, 5% );
+$admonitionOutline: $admonitionBg;
+$cautionColor: lighten( #a0439c, 20% );
+$importantColor: lighten( #d32f2f, 20% );
+$noteColor: lighten( #217ee7, 20% );
+$tipColor: lighten( #41af46, 20% );
+$warningColor: lighten( #e18114, 20% );
+
+
+// Generates the presentation background, can be overridden
+// to return a background image or gradient
+@mixin bodyBackground() {
+	background: $backgroundColor;
+}

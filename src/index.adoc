@@ -1,0 +1,353 @@
+= How to use [.emph]#CI/CD# when your science requires [.emph]#HPC#
+:revealjs_customtheme: utd_theme.css
+:revealjsdir: reveal.js
+:icons: font
+:source-highlighter: highlightjs
+:highlightjs-languages: bash,python,yaml
+:highlightjs-theme: highlight.js/styles/stackoverflow-dark.css
+:revealjs_slideNumber: true
+:imagesdir: assets/images
+:revealjs_plugins: reveal.js/plugin/math/math.js
+
+
+[.authors]
+Georgia K. Stuart 
+[.institution]
+Cyberinfrastructure & Research Support +
+Office of Information Technology +
+The University of Texas at Dallas
+
+[.columns.is-vcentered]
+== About Georgia
+
+[.column.is-one-third]
+[.rounded-image]
+image::georgia.jpg[Georgia Stuart]
+
+[.column.text-less-small]
+--
+* MAT, Math/Science Education, [.emph]#UT Dallas#, 2014
+* PhD, Mathematics, [.emph]#UT Dallas#, 2020
+* CS education specialist, [.emph]#TACC#, 2017+ 
+* Postdoc, CHG, [.emph]#Oden Institute, UT Austin#, 2020-2021
+* Research Scientist, [.emph]#Cyberinfrastructure & Research Support, OIT, UT Dallas#, 2021+
+--
+
+[.columns]
+== Collaborators
+[.column]
+****
+[.circle-image]
+image::benjamin.jpeg[Benjamin Pachev]
+
+[.collaborator]
+Benjamin Pachev
+
+[.collab-info]
+PhD Student +
+Computational Hydraulics Group +
+Oden Institute for Computational Science & Engineering +
+UT Austin
+****
+
+[.column]
+****
+[.circle-image]
+image::clint.jpeg[Clint Dawson]
+
+[.collaborator]
+Clint Dawson
+
+[.collab-info]
+Director, Computational Hydraulics Group +
+Oden Institute for Computational Science & Engineering +
+J.J. McKetta Centennial Energy Chair in Engineering and Department Chair +
+Aerospace Engineering +
+UT Austin
+****
+
+[.column]
+****
+[.circle-image]
+image::chris.png[Chris Simmons]
+
+[.collaborator]
+Chris Simmons
+
+[.collab-info.has-text-left]
+Deputy Director +
+Massachusetts Green High Performance Computing Center
+****
+
+[.column]
+****
+[.circle-image]
+image::sue.jpg[Sue Minkoff]
+
+[.collaborator]
+Sue Minkoff
+
+[.collab-info.has-text-left]
+Professor +
+Department of Mathematical Sciences +
+UT Dallas
+****
+
+[.column]
+****
+[.circle-image]
+image::felipe.jpg[Felipe Pereira]
+
+[.collaborator]
+Felipe Pereira
+
+[.collab-info]
+Professor +
+Department of Mathematical Sciences +
+UT Dallas
+****
+
+== Talk Outline
+
+* What is [.emph]#CI/CD#?
+* HPC challenges
+* CI/CD, [.emph]#Tapis#, and TACC
+* Case 1: HPC-enabled [.emph]#integration testing#
+* Case 2: [.emph]#Scientific experiments# through CI/CD
+* Conclusion
+
+
+[%notitle]
+== What is CI/CD?
+
+[.statement]
+What is [.emph]#Continuous Integration / Continuous Deployment (CI/CD)#?
+
+== CI/CD
+
+* [.emph]#Continuous integration# typically refers to automation of build and tests.
+* [.emph]#Continuous deployment and delivery# refer to automating the deployment of software changes to customers.
+
+[.purple.bold]#Both aspects of CICD significantly increase developer productivity and code quality, so it's no surprise that it has become standard practice!#
+
+== HPC Challenges for CI/CD
+
+* [.emph]#Integration tests# for an HPC app typically need to run on the same
+[.emph]#HPC resources# as production
+* HPC systems may be protected by [.emph]#two-factor authentication#
+* Tasks on HPC may not [.emph]#execute immediately# (job queue)
+
+[.columns]
+== CI/CD, Tapis, and TACC
+
+[.column.is-two-thirds]
+* One solution: https://tapis-project.org/[Tapis]
+* [.emph]#web-based API# for interacting with computational and 
+storage systems
+* allows [.emph]#queuing jobs# with batch systems using [.emph]#API calls#
+* provides [.emph]#webhook interaction# on job events
+
+[.column]
+image::tapis.png[]
+
+
+[%notitle]
+== Tapis CI/CD idea
+
+[.statement]
+[.purple]#Idea:# use [.emph]#Tapis# to enable [.emph]#GitHub or GitLab# based 
+CI/CD pipelines
+to interact with [.emph]#HPC systems#
+
+== Use Cases for CI/CD in Science
+
+1. [.emph]#Integration tests# in an HPC environment
+2. [.emph]#Reproducible and documented# CI/CD-based [.emph]#science workflows#
+
+== Case 1: HPC-Enabled Code Testing
+
+[.text-less-small]
+Special thanks to [.emph]#Benjamin Pachev# for this section!
+
+Case study: [.purple.bold]#PYOPATRA (PYthon Ocean PArticle TRAcking)#
+
+* HPC application for [.emph]#Lagrangian particle tracking#
+* Applications: oil spill modeling and inversion, fish modeling, air particle 
+modeling, etc
+
+== PYOPATRA HPC Concerns
+
+1. [.purple.bold]#Is the mesh set up correctly?#
++
+The mesh needs to be [.emph]#identically constructed# on each 
+[.emph]#compute node# in [.emph]#shared memory# accessible by all MPI tasks
+
+2. [.purple.bold]#Are particles distributed across tasks and nodes correctly?#
++
+PYOPATRA is [.emph]#embarassingly parallel#, but particles need to be balanced
+over MPI tasks and nodes
+
+== PYOPATRA HPC Concerns
+
+[start=3]
+3. [.purple.bold]#Do particles propagate through the mesh correctly?# 
++
+The [.emph]#time-lapse propagation# or [.emph]#ending position of the particles#
+is the output from LPT
+
+4. [.purple.bold]#Does the performance scale as expected?# 
++
+It's easy to introduce [.emph]#inefficiencies# that affect performance
+
+[%notitle]
+== PYOPATRA HPC Concerns
+
+[.statement]
+[.purple]#All of these concerns require HPC to resolve, and all should be 
+verified when the code is changed!#
+
+== PYOPATRA CI/CD Tech Stack
+
+* https://github.com/features/actions[Github Actions] for representing and 
+launching CI workflows.
+* https://tapis-project.org/[Tapis V2] for bypassing 2fa 
+and dealing with the job queue on 
+https://www.tacc.utexas.edu/systems/stampede2[Stampede2].
+* A https://jetstream-cloud.org/[Jetstream] VM to facilitate communication 
+between Github Actions and TAPIS.
+* https://www.docker.com/[Docker] and 
+https://apptainer.org/[Singularity/Apptainer] for containerization 
+of the PYOPATRA application.
+
+== PYOPATRA CI/CD Workflow
+
+image::flowchart.png[]
+
+== Tapis Testing Application
+
+[.text-less-small]
+* https://github.com/UT-CHG/hpc-cicd[Generic application] that can run integration tests for any [.emph]#containerized HPC app#
+* Specified by a [.emph]#registry URL# pointing to the application image to download and convert to Singularity
+* Tests are defined by a [.emph]#setup script (optional), main run script, supplementary files#
+* Tests are run by singularity exec with the downloaded image and test files
+* https://github.com/UT-CHG/PYOPATRA/tree/hpc-tests/test/hpc_tests[Example here]!
+
+== Tapis Testing Application
+
+image::flowchart2.png[]
+
+== The Job Queue
+
+* Tests are [.emph]#submitted as jobs# and have to [.emph]#wait in the queue# before executing
+* Wait times can be long, so we need a way to [.emph]#detect job completion# without polling Tapis
+* Tapis supports posting job status updates to a provided [.emph]#webhook#
+
+== Reproducible Science
+
+[.purple.bold]#Reproducing computational science experiments is rife with problems#
+
+* [.emph]#Research code changes!# [.text-small]#(It worked last year...)#
+* [.emph]#Packages available for installation change!# [.text-small]#(It worked on the last distro...)#
+* [.emph]#Maintaining experiment inputs, outputs, and metadata is difficult!# [.text-small]#(It worked with these long lost inputs...)#
+* [.emph]#Tranferring between workstations and different HPC systems is difficult!# [.text-small]#(It worked on my computer...)#
+
+[%notitle]
+== Scientific Experiments
+
+[.statement]
+[.purple]#Idea:# leverage Tapis to promote [.emph]#reproducible science# on HPC system
+
+
+== Some solutions
+
+* [.purple.bold]#Containerization!#
++
+[.text-less-small]
+Keep [.emph]#container images#, not just reciples (the internet is [.emph]#not reproducible#)
+
+* [.purple.bold]#Backup inputs, outputs, and metadata to an organized and _backed up_ system#
++
+[.text-less-small]
+Potential solutions: [.emph]#Ranch @ TACC#, [.emph]#S3 buckets#, [.emph]#git repository hosting for metadata repos#
+
+* To tie it together... [.purple.bold]#Tapis!#
++
+[.text-less-small]
+Tapis can [.emph]#automate# job submission, metadata creation, and input/output archiving
+
+== Tapis CI/CD for Science Tech Stack
+
+* https://docs.gitlab.com/ee/ci/pipelines/[GitLab Pipelines] for launching workflows
+* https://tapis-project.org/[Tapis V3] for managing authentication to the [.emph]#Europa# HPC system and
+an [.emph]#AWS S3 bucket# 
+* https://www.docker.com/[Docker] and 
+https://apptainer.org/[Singularity/Apptainer] for containerization of the applications
+
+== Test Case: Seismic MCMC
+
+* [.emph]#Seismic inversion# with [.emph]#Markov chain Monte Carlo# gives a "view of the subsurface" with 
+uncertainty information by inverting [.emph]#seismic waves#
+
+* [.purple.bold]#Massively computationally expensive# and requires [.emph]#many replications (chains)# 
+of the experiment to build the uncertainty distributions
+
+* On most HPC systems, requires [.emph]#checkpointing and restarting experiments repeatedly#
+
+== Tapis CI/CD for Science Setup
+
+1. Create [.emph]#Tapis Systems# for your HPC and storage systems (or use TACC's!)
+2. Create a [.emph]#Tapis app# describing how your (containerized) workflow runs
+3. Create a [.emph]#Tapis job template# that will be used to describe specific jobs 
+
+== Tapis CI/CD for Science Workflow
+
+1. Stage your [.emph]#application container# on your run system (may be automated in the future)
+2. Commit and push your [.emph]#job template and input files# to the GitLab repository 
+3. [.emph]#Trigger the workflow# (manually or automatically on push)
+
+== GitLab Pipeline & Tapis
+
+After launch the GitLab pipeline...
+
+1. [.purple.bold]#Stages input files on the execution system with the Tapis API#
++
+Inputs can come from [.emph]#the GitLab repo# or from [.emph]#the storage system#
+
+2. [.purple.bold]#Creates the job description from the job template#
+
+3. [.purple.bold]#Uses Tapipy to submit the job to the execution system#
+
+== After job completion
+
+1. [.purple.bold]#Tapis notifies the GitLab pipeline with a# [.emph]#webhook#
+
+2. [.purple.bold]#The pipeline moves artifacts from the run to the storage system with the Tapis API#
+
+3. [.purple.bold]#The pipeline writes final metadata and commits it to the repository# 
+
+== Benefits
+
+* Experiments are [.emph]#uniquely identified# and all artifacts are stored to long-term storage upon job completion
+* Experiment metadata is [.emph]#Automatically created and commited to a git repository#
+* Experiments are [.emph]#assigned to a specific version of the Tapis app# for reproducibility
+
+== Conclusion
+
+* [.emph]#CI/CD# methodology is useful for both [.emph]#testing# and 
+[.emph]#creating reproducible science experiments#
+* [.emph]#Tapis# is a great tool for CI/CD integration tests and [.emph]#SCIENCE#!
+
+== Acknowledgements 
+
+* [.emph]#XSEDE# for access to [.emph]#Jetstream#, [.emph]#Jetstream2#, and [.emph]#Stampede2#
+* The [.emph]#developers of TAPIS#, for making automation of HPC on TACC systems possible
+* [.emph]#KAUST# for supporting the PYOPATRA project
+* [.emph]#Richard Cardone# and [.emph]#Alex Fields# of TACC for endless Tapis conversation and support
+* [.emph]#TRECIS CC* Cyberteam# for the use of Europa and GitLab
+
+== Follow Up & Contact Me
+
+* Get this talk at https://utd.link/taccster2022[utd.link/taccster2022]
+* Email me at [.emph]#georgia.stuart@utdallas.edu#
+* Follow my (somewhat inactive) twitter at https://twitter.com/mathgeorgia[@mathgeorgia]
+* Read our PEARC '22 paper at https://utd.link/pearc22[utd.link/pearc22]

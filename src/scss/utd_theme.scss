@@ -1,0 +1,196 @@
+@import './mixins';
+@import './settings.scss';
+@import './base.scss';
+@import './presentation.scss';
+
+.authors {
+  color: $utdAquamarine;
+  font-size: $heading3Size;
+}
+
+.authors > p > sup {
+  font-size: 10px;
+}
+
+.institution {
+  font-size: 0.8em;
+}
+
+.collaborator {
+  font-size: 0.8em;
+  color: $utdAquamarine;
+  font-family: $headingFont;
+}
+
+.collab-info {
+  font-size: 0.3em;
+}
+
+.emph {
+  color: darken( $utdAquamarine, 15%);
+  font-weight: bold;
+}
+
+h1,h2,h3,h4 {
+  .emph {
+    font-weight: normal;
+  }
+}
+
+.admonitionblock {
+  background-color: $admonitionBg;
+  border-color: transparent;
+  font-size: 30px;
+  border-radius: 10px;
+}
+
+.admonitionblock > table {
+  border-color: transparent;
+}
+
+.reveal pre {
+  box-shadow: none;
+}
+
+.warning i {
+  color: $warningColor;
+  font-size: $mainFontSize;
+}
+
+.caution i {
+  color: $cautionColor;
+  font-size: $mainFontSize;
+}
+
+.important i {
+  color: $importantColor;
+  font-size: $mainFontSize;
+}
+
+.tip i {
+  color: $tipColor;
+  font-size: $mainFontSize;
+}
+
+.slide-content a {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.reveal p code {
+  background-color: $utdGreenLight;
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+
+li::marker {
+  color: $utdOrange;
+}
+
+.smaller-title > h1 {
+  font-size: var(--r-heading2-size);
+}
+
+.subtitle {
+  color: $utdOrangeLight;
+}
+
+.partial-columns > .content {
+  display: flex;
+  gap: 40px;
+}
+
+.institution > p > sup {
+  font-size: 10px;
+}
+
+.rounded-image > img {
+  border-radius: 10px;
+}
+
+.circle-image > img {
+  clip-path: circle();
+}
+
+.columns .slide-content > .column > img {
+  padding: 0;
+}
+
+.demo-page {
+  width: 100%;
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.demo {
+  min-height: 0;
+  width: 100%;
+  // padding-bottom: 30px;
+  flex-grow: 1;
+}
+
+.demo-page > .slide-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  flex-grow: 1;
+}
+
+.caption {
+  font-size: 15px;
+}
+
+.green {
+  color: darken( $utdAquamarine, 15%);
+}
+
+.orange {
+  color: $utdOrangeLight;
+}
+
+.purple {
+  color: $utdPurple;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.text-small {
+  font-size: 15px;
+}
+
+.text-less-small {
+  font-size: 30px;
+}
+
+.text-large {
+  font-size: $heading2Size;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.statement {
+  font-family: $headingFont;
+  font-size: $heading2Size;
+}
+
+.statement > p > .emph {
+  font-weight: normal;
+}
+
+.pad-bottom {
+  padding-bottom: 30px;
+}
+
+.remove-margin > p > span > img {
+  margin: 0;
+}
